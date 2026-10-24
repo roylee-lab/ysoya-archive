@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ p.title }} — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<article class="sheet post">
+  <nav class="crumbs"><a href="{{ url_for('community.board_index') }}">게시판</a> / <a href="{{ url_for('community.board', slug=b.slug) }}">{{ b.name }}</a></nav>
+  {% if p.hidden %}<p class="notice">숨겨진 글입니다. 관리자에게만 보입니다.</p>{% endif %}
+  <h1>{{ p.title }}</h1>
+  <p class="post-meta"><strong>{{ p.name }}</strong> <span class="ts">{{ fmt_time(p.created) }}</span>{% if p.updated %} <span class="muted">(고침 {{ fmt_time(p.updated) }})</span>{% endif %} <span class="muted">조회 {{ p.views }}</span></p>
+  <div class="post-body">{{ render_body(p.body) }}</div>
+  {% if atts %}
+  <div class="attachments">
+    {% for a in atts if a.kind == 'image' %}<figure><a href="{{ url_for('community.attachment', att_id=a.id) }}"><img src="{{ url_for('community.attachment', att_id=a.id) }}" alt="{{ a.name }}" loading="lazy"></a><figcaption>{{ a.name }}</figcaption></figure>{% endfor %}
+    <ul>{% for a in atts if a.kind != 'image' %}<li><a href="{{ url_for('community.attachment', att_id=a.id) }}">{{ a.name }}</a> <span class="muted">{{ fmt_size(a.size) }}</span></li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+  <div class="post-actions">
+    <a class="button" href="{{ url_for('community.board', slug=b.slug) }}">목록</a>
+    {% if can_edit %}
+      <a class="button" href="{{ url_for('community.edit', post_id=p.id) }}">고치기</a>
+      <form method="post" action="{{ url_for('community.delete', post_id=p.id) }}" data-confirm="이 글을 지울까요?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">지우기</button></form>
+    {% endif %}
+    {% if is_admin %}<form method="post" action="{{ url_for('community.pin', post_id=p.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">{{ '고정 풀기' if p.pinned else '맨 위에 고정' }}</button></form>{% endif %}
+    {% if me and me.id != p.user_id %}
+      <details class="report"><summary>신고</summary>
+        <form method="post" action="{{ url_for('community.report', target='post', tid=p.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <label for="rr">이유</label><input id="rr" type="text" name="reason" maxlength="300" placeholder="예: 다른 사람의 개인 정보"><button type="submit">신고하기</button></form>
+      </details>
+    {% endif %}
+  </div>
+</article>
+
+<section class="sheet" id="comments" aria-labelledby="c-title">
+  <h2 id="c-title">댓글 {{ comments|selectattr('hidden', 'equalto', 0)|list|length }}</h2>
+  <ol class="comments">
+    {% for c in comments %}
+      <li>{% if c.hidden %}<p class="muted">지워진 댓글입니다.</p>{% else %}
+        <p class="post-meta"><strong>{{ c.name }}</strong> <span class="ts">{{ fmt_time(c.created) }}</span></p>
+        <div>{{ render_body(c.body) }}</div>
+        {% if me and (me.id == c.user_id or is_admin) %}
+          <form method="post" action="{{ url_for('community.delete_comment', cid=c.id) }}" data-confirm="이 댓글을 지울까요?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="linklike">지우기</button></form>
+        {% elif me %}
+          <form method="post" action="{{ url_for('community.report', target='comment', tid=c.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="reason" value="댓글 신고"><button type="submit" class="linklike">신고</button></form>
+        {% endif %}
+      {% endif %}</li>
+    {% endfor %}
+  </ol>
+  {% if me %}
+    <form method="post" action="{{ url_for('community.comment', post_id=p.id) }}" class="comment-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="cb">댓글 쓰기</label>
+      <textarea id="cb" name="body" rows="3" maxlength="2000" required></textarea>
+      <button type="submit">댓글 남기기</button>
+    </form>
+  {% else %}
+    <p class="muted"><a href="{{ url_for('community.login', next=request.full_path) }}">로그인</a>하면 댓글을 남길 수 있습니다.</p>
+  {% endif %}
+</section>
+<script src="{{ url_for('static', filename='community.js') }}"></script>
+{% endblock %}

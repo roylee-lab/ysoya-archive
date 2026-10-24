@@ -1,0 +1,8 @@
+{
+  "contact": "",
+  "community": {
+    "members_only": true,
+    "max_upload_mb": 5,
+    "max_files_per_post": 3
+  }
+}

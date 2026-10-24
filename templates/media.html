@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}영상·음성 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>영상·음성</h1>
+  {% if not_playable %}
+    <p class="notice">옛 형식(MPG, WMV, ASF, RM, VQF 등)은 브라우저에서 바로 재생되지 않습니다. 색인을 만들 때 <code>--convert-media</code>를 붙이면 재생 가능한 형식으로 바꿔 둡니다.</p>
+  {% endif %}
+  <ul class="media-list">
+  {% for m in items %}
+    <li>
+      <strong>{{ m.name }}</strong> <span class="muted">{{ m.section }}, 캡처 <span class="ts">{{ ts_label(m.ts) }}</span>, {{ (m.size / 1048576)|round(1) }}MB</span>
+      {% if m.play_src and m.kind == 'video' %}
+        <video controls preload="metadata" src="{{ m.play_src }}"></video>
+      {% elif m.play_src %}
+        <audio controls preload="metadata" src="{{ m.play_src }}"></audio>
+      {% else %}
+        <p class="muted">이 형식은 브라우저에서 재생할 수 없습니다.</p>
+      {% endif %}
+      <p><a href="{{ url_for('file', cap_id=m.id) }}">원본 파일 받기</a> <a href="{{ view_href(m.ts, m.canon) }}">보존된 주소로 보기</a></p>
+    </li>
+  {% else %}
+    <li>보이는 영상·음성 파일이 없습니다.</li>
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

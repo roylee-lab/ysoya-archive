@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ c.name }} — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet person-head">
+  <p class="eyebrow ts">{{ c.alias }}</p>
+  <h1>{{ c.name }}</h1>
+  <p class="lede">{{ c.headline }}</p>
+  <p class="prose">{{ c.summary }}</p>
+  <div class="person-facts">
+    <div><h2>지금</h2><ul>{% for x in c.now %}<li>{{ x }}</li>{% endfor %}</ul></div>
+    <div><h2>학력</h2><ul>{% for x in c.education %}<li>{{ x }}</li>{% endfor %}</ul></div>
+  </div>
+</section>
+<section class="sheet" aria-labelledby="career-title">
+  <h2 id="career-title">경력</h2>
+  {% for era in c.eras %}
+    <div class="era">
+      <h3><span class="ts">{{ era.period }}</span> {{ era.title }}</h3>
+      <ol class="chronicle">
+        {% for it in era['items'] %}
+          <li><time>{{ it.date }}</time><span>{% if it.link %}<a href="{{ it.link }}">{{ it.text }}</a>{% else %}{{ it.text }}{% endif %}
+            {% if it.src is not none and it.src is defined %}<sup><a href="#src-{{ it.src }}" aria-label="출처 {{ it.src + 1 }}">[{{ it.src + 1 }}]</a></sup>{% endif %}</span></li>
+        {% endfor %}
+      </ol>
+    </div>
+  {% endfor %}
+</section>
+<section class="sheet" aria-labelledby="works-title">
+  <h2 id="works-title">참여한 게임</h2>
+  <div class="table-wrap"><table class="listing">
+    <thead><tr><th>게임</th><th>회사</th><th>맡은 일</th></tr></thead>
+    <tbody>{% for w in c.works %}<tr><td>{{ w.title }}</td><td>{{ w.company }}</td><td>{{ w.role }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+<section class="sheet" aria-labelledby="src-title">
+  <h2 id="src-title">출처</h2>
+  <ol class="sources">{% for s in c.sources %}<li id="src-{{ loop.index0 }}"><a href="{{ s.url }}" rel="noopener noreferrer" target="_blank">{{ s.title }}</a> <span class="muted">{{ s.note }}</span></li>{% endfor %}</ol>
+  <p class="muted">밑줄 친 항목은 이 사이트에 보존된 원래 페이지로 이어집니다. 틀린 내용이나 빠진 경력은 <a href="{{ url_for('community.board', slug='finds') }}">발굴·제보 게시판</a>에 알려 주세요. 관리자는 <code>career.json</code> 파일을 고쳐 반영합니다.</p>
+</section>
+{% endblock %}

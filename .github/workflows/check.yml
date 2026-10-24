@@ -1,0 +1,16 @@
+# GitHub 에 올릴 때마다 사이트가 제대로 동작하는지 자동으로 시험
+name: check
+on:
+  push:
+  pull_request:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile app.py archive_core.py build_index.py community.py tools/pack_for_upload.py
+      - run: python tests/smoke_test.py

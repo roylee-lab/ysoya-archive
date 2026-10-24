@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}게시판 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>게시판</h1>
+  <p class="prose muted">보존된 홈페이지를 함께 보는 사람들의 공간입니다. 다른 사람의 사진이나 개인 정보를 함부로 올리지 말고, 옛 자료를 올릴 때는 출처와 저작권을 밝혀 주세요.</p>
+  <div class="board-grid">
+  {% for it in items %}
+    <section class="board-card" aria-labelledby="b-{{ it.board.slug }}">
+      <div class="section-head"><h2 id="b-{{ it.board.slug }}"><a href="{{ url_for('community.board', slug=it.board.slug) }}">{{ it.board.name }}</a></h2><span class="muted">글 {{ it.count }}개</span></div>
+      <p class="muted">{{ it.board.desc }}</p>
+      <ul class="post-mini">
+        {% for p in it.latest %}<li><a href="{{ url_for('community.post', post_id=p.id) }}">{{ p.title }}</a>{% if p.comments %} <span class="cc">[{{ p.comments }}]</span>{% endif %} <span class="muted">{{ p.name }}</span></li>
+        {% else %}<li class="muted">아직 글이 없습니다.</li>{% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+  </div>
+</section>
+{% endblock %}

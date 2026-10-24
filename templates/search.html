@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{% if q %}"{{ q }}" 찾기{% else %}찾기{% endif %} — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>찾기</h1>
+  <form class="search-form" action="{{ url_for('search') }}" role="search">
+    <label class="visually-hidden" for="q">찾을 말</label>
+    <input id="q" type="search" name="q" value="{{ q }}" placeholder="예: 코믹월드, PS2, 루즈삭스" autofocus>
+    <label class="visually-hidden" for="sec">구역</label>
+    <select id="sec" name="section"><option value="">모든 구역</option>
+      {% for s in sections %}<option value="{{ s }}" {% if s == section %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+    <button type="submit">찾기</button>
+  </form>
+  {% if q %}
+    <p class="muted">페이지 {{ "{:,}".format(total) }}개에서 찾았습니다.{% if total >= limit %} 결과가 많아 앞쪽 {{ limit }}개만 모았습니다. 낱말을 더 붙여 좁혀 보세요.{% endif %}</p>
+    <ol class="results">
+      {% for r in results %}
+        <li><a href="{{ view_href(r.ts, r.canon) }}">{{ r.title }}</a>
+          <span class="url">{{ r.canon }} <span class="ts">({{ r.ts[:4] }}, 캡처 {{ r.n }}개)</span></span>
+          <p>{{ r.snippet }}</p></li>
+      {% else %}
+        <li>"{{ q }}"이(가) 들어간 페이지가 없습니다. 맞춤법을 바꾸거나 더 짧은 낱말로 찾아보세요.</li>
+      {% endfor %}
+    </ol>
+    {% if pages > 1 %}
+    <nav class="pager" aria-label="쪽 이동">
+      <a class="button" href="{{ url_for('search', q=q, section=section, page=page-1) }}" {% if page <= 1 %}aria-disabled="true"{% endif %}>앞 쪽</a>
+      <span>{{ page }} / {{ pages }}</span>
+      <a class="button" href="{{ url_for('search', q=q, section=section, page=page+1) }}" {% if page >= pages %}aria-disabled="true"{% endif %}>다음 쪽</a>
+    </nav>
+    {% endif %}
+  {% else %}
+    <p class="muted">글자 하나하나를 비교해서 찾기 때문에 '사진'처럼 짧은 낱말도, '사진을'처럼 조사가 붙은 말도 찾을 수 있습니다.</p>
+  {% endif %}
+</section>
+{% endblock %}

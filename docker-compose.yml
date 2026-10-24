@@ -1,0 +1,18 @@
+# 사용법은 README.md 참고
+services:
+  web:
+    build:
+      context: .
+      args:
+        INSTALL_FFMPEG: "0"          # 컨테이너 안에서 --convert-media 를 쓰려면 "1"
+    ports:
+      - "127.0.0.1:8000:8000"        # 같은 컴퓨터에서만 열림 (밖으로는 Cloudflare Tunnel 등으로)
+    environment:
+      SITE_PASSWORD: ${SITE_PASSWORD:-}
+      SECRET_KEY: ${SECRET_KEY:?.env 파일에 SECRET_KEY 를 정하세요}
+      COOKIE_SECURE: ${COOKIE_SECURE:-0}
+      ARCHIVE_ROOTS: ${ARCHIVE_ROOTS:-/archive/ysoya_archive}
+    volumes:
+      - ./archive:/archive:ro         # 받은 폴더들을 ./archive 아래에 둔다 (읽기 전용)
+      - ./data:/data                  # archive.db 와 변환된 영상
+    restart: unless-stopped

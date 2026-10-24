@@ -1,0 +1,12 @@
+# 파이썬
+.venv/
+__pycache__/
+*.pyc
+# 받은 자료와 색인, 게시판 데이터 (GitHub 에 올리지 않음)
+data/
+archive/
+upload/
+ysoya_archive/
+# 비밀 값과 서버별 설정
+.env
+*.local.json

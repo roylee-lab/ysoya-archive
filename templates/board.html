@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ b.name }} — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <nav class="crumbs"><a href="{{ url_for('community.board_index') }}">게시판</a> / {{ b.name }}</nav>
+  <div class="section-head"><h1>{{ b.name }}</h1>
+    {% if can_write %}<a class="button" href="{{ url_for('community.write', slug=b.slug) }}">글쓰기</a>
+    {% elif not me %}<a href="{{ url_for('community.login', next=request.full_path) }}">로그인하면 글을 쓸 수 있습니다</a>{% endif %}</div>
+  <p class="muted">{{ b.desc }}</p>
+  <form class="search-form" method="get">
+    <label class="visually-hidden" for="bq">이 게시판에서 찾기</label>
+    <input id="bq" type="search" name="q" value="{{ q }}" placeholder="제목·내용에서 찾기"><button type="submit">찾기</button>
+  </form>
+  <div class="table-wrap"><table class="listing board-list">
+    <thead><tr><th>제목</th><th>쓴 사람</th><th class="num">날짜</th><th class="num">조회</th></tr></thead>
+    <tbody>
+    {% for p in posts %}
+      <tr {% if p.pinned %}class="pinned"{% endif %}>
+        <td class="name">{% if p.pinned %}<span class="tag">고정</span> {% endif %}<a href="{{ url_for('community.post', post_id=p.id) }}">{{ p.title }}</a>
+          {% if p.comments %}<span class="cc">[{{ p.comments }}]</span>{% endif %}{% if p.files %} <span class="muted">파일 {{ p.files }}</span>{% endif %}</td>
+        <td>{{ p.name }}</td><td class="num ts">{{ fmt_time(p.created)[2:10] }}</td><td class="num">{{ p.views }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="4" class="muted">{% if q %}"{{ q }}"이(가) 들어간 글이 없습니다.{% else %}아직 글이 없습니다. 첫 글을 남겨 주세요.{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% if pages > 1 %}
+  <nav class="pager" aria-label="쪽 이동">
+    <a class="button" href="{{ url_for('community.board', slug=b.slug, q=q, page=page-1) }}" {% if page <= 1 %}aria-disabled="true"{% endif %}>앞 쪽</a>
+    <span>{{ page }} / {{ pages }}</span>
+    <a class="button" href="{{ url_for('community.board', slug=b.slug, q=q, page=page+1) }}" {% if page >= pages %}aria-disabled="true"{% endif %}>다음 쪽</a>
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

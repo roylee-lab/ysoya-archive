@@ -1,0 +1,5 @@
+<ol class="chronicle">
+  {% for e in cfg.timeline %}
+    <li><time datetime="{{ e.date }}">{{ e.date|replace('-', '.') }}</time><span>{{ e.text }}</span></li>
+  {% endfor %}
+</ol>

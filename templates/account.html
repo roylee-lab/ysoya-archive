@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}내 정보 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>{{ me.name }}</h1>
+  <p class="muted">{{ '관리자' if me.role == 'admin' else '회원' }}, {{ fmt_time(me.created)[:10] }} 가입</p>
+  <h2>내가 쓴 글</h2>
+  <ul class="post-mini">{% for p in posts %}<li><a href="{{ url_for('community.post', post_id=p.id) }}">{{ p.title }}</a> <span class="muted ts">{{ fmt_time(p.created) }}</span></li>{% else %}<li class="muted">아직 쓴 글이 없습니다.</li>{% endfor %}</ul>
+</section>
+<section class="sheet login">
+  <h2>비밀번호 바꾸기</h2>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="cur">지금 비밀번호</label><input id="cur" type="password" name="current" required autocomplete="current-password">
+    <label for="np">새 비밀번호</label><input id="np" type="password" name="password" required minlength="8" autocomplete="new-password">
+    <label for="np2">새 비밀번호 확인</label><input id="np2" type="password" name="password2" required minlength="8" autocomplete="new-password">
+    <button type="submit">바꾸기</button>
+  </form>
+</section>
+{% endblock %}

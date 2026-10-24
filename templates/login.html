@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}들어가기 — {{ cfg.site_title }}{% endblock %}
+{% block chrome %}
+<main><div class="sheet login">
+  <p class="wordmark">YSOYA<span>_</span>Archive</p>
+  <h1>들어가기</h1>
+  <p class="muted">비공개로 운영 중인 보존판입니다. 받은 비밀번호를 입력하세요.</p>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post">
+    <input type="hidden" name="next" value="{{ next }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="pw">비밀번호</label>
+    <input id="pw" type="password" name="password" autocomplete="current-password" required autofocus>
+    <button type="submit">들어가기</button>
+  </form>
+</div></main>
+{% endblock %}

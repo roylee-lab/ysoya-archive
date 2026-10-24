@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}사진첩 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>사진첩</h1>
+  <p class="prose muted">사진이 네 장 이상 남은 폴더를 사진첩으로 묶었습니다. 행사 사진 속 인물들은 당시 촬영과 게시에 응한 분들이며, 이 사이트 밖으로 옮기지 말아 주세요.</p>
+  {% for year, items in groups %}
+    <div class="year-group"><h3>{{ year }}</h3>{% with albums = items %}{% include "_albums.html" %}{% endwith %}</div>
+  {% else %}
+    <p>사진첩으로 묶을 사진이 없습니다. 색인을 만들 때 받은 폴더를 지정했는지 확인하세요.</p>
+  {% endfor %}
+</section>
+{% endblock %}

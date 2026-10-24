@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}둘러보기 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>둘러보기</h1>
+  <nav class="crumbs" aria-label="현재 위치">
+    <a href="{{ url_for('browse') }}">모든 주소</a>
+    {% for label, p in crumbs %} / <a href="{{ url_for('browse', p=p) }}">{{ label }}</a>{% endfor %}
+    {% if variant %} / {{ variant }}{% endif %}
+  </nav>
+  {% if hosts %}
+    <p class="muted">홈페이지가 거쳐 간 주소들입니다. 숨김으로 설정한 구역은 빠져 있습니다.</p>
+    <div class="table-wrap"><table class="listing">
+      <thead><tr><th>주소</th><th class="num">보존된 주소 수</th><th class="num">기간</th></tr></thead>
+      <tbody>{% for h in hosts %}
+        <tr class="dir"><td class="name"><a href="{{ url_for('browse', p=h.host + '/') }}">{{ h.host }}</a></td>
+          <td class="num">{{ "{:,}".format(h.n) }}</td><td class="num ts">{{ h.a[:4] }}–{{ h.b[:4] }}</td></tr>
+      {% endfor %}</tbody>
+    </table></div>
+  {% elif dirs or files %}
+    {% if total_files > limit %}<p class="notice">주소가 {{ "{:,}".format(total_files) }}개라 앞쪽 {{ limit }}개만 보여 줍니다. 특정 페이지는 찾기로 찾는 편이 빠릅니다.</p>{% endif %}
+    <div class="table-wrap"><table class="listing">
+      <thead><tr><th>이름</th><th class="num">캡처</th><th class="num">기간</th></tr></thead>
+      <tbody>
+      {% for d in dirs %}
+        <tr class="dir"><td class="name"><a href="{{ d.href }}">{{ d.label }}/</a><span class="sub">주소 {{ d.n }}개</span></td>
+          <td class="num">{{ d.caps }}</td><td class="num ts">{{ d.a[:4] }}–{{ d.b[:4] }}</td></tr>
+      {% endfor %}
+      {% for f in files %}
+        <tr><td class="name"><a href="{{ f.href }}">{{ f.label }}</a>{% if f.title and f.title != f.label %}<span class="sub">{{ f.title }}</span>{% endif %}</td>
+          <td class="num">{{ f.n }}</td><td class="num ts">{{ f.a[:4] }}{% if f.b[:4] != f.a[:4] %}–{{ f.b[:4] }}{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+  {% else %}
+    <p>이 위치에는 보이는 자료가 없습니다. <a href="{{ url_for('browse') }}">처음 목록으로</a></p>
+  {% endif %}
+</section>
+{% endblock %}

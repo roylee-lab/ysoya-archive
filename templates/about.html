@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}이 사이트는 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet prose">
+  <h1>이 사이트는</h1>
+  <p>{{ cfg.intro }}</p>
+  <h2>어떻게 만들었나</h2>
+  <p>인터넷 아카이브의 CDX 목록으로 ysoya.net 의 모든 캡처를 찾아 원본 그대로 내려받고, 파일마다 아카이브가 기록한 SHA-1 해시와 대조했습니다.
+     옛 한국어 페이지(EUC-KR)는 보여줄 때 UTF-8 로 바꾸고, 페이지 안의 링크는 이 사이트 안의 같은 시점 캡처로 이어지게 고쳤습니다.</p>
+  <h2>보이지 않게 한 것</h2>
+  <p>다른 사람이 쓴 글(방명록), 다른 사람의 홈페이지, 상업 영상·음성, 실행 파일은 기본으로 숨겼습니다. 숨긴 캡처는 {{ "{:,}".format(stats.hidden) }}개입니다.
+     2017년 이후 이 주소에 올라온 무관한 페이지와 서버의 '없는 페이지' 응답 {{ "{:,}".format(stats.junk) }}개도 뺐습니다.</p>
+  <p>보존된 페이지 안의 스크립트는 실행되지 않습니다. 글과 사진의 권리는 각 작성자에게 있습니다.{% if cfg.contact %} 삭제를 원하시면 <a href="mailto:{{ cfg.contact }}">{{ cfg.contact }}</a> 로 알려 주세요.{% endif %}</p>
+  <h2>지금 들어 있는 것</h2>
+  <p>페이지 {{ "{:,}".format(stats.pages) }}개, 사진 {{ "{:,}".format(stats.images) }}장, 영상·음성 {{ stats.media }}개, 사진첩 {{ stats.albums }}개.
+     캡처 기간은 {{ ts_label(stats.first)[:10] }}부터 {{ ts_label(stats.last)[:10] }}까지입니다.</p>
+</section>
+{% endblock %}

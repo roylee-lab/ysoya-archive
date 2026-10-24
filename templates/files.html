@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}자료 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>자료</h1>
+  <p class="prose muted">옛 홈페이지에 올라와 있던 파일과, 회원들이 '자료 나눔' 등 게시판에 붙인 파일을 한곳에 모았습니다. 사진은 <a href="{{ url_for('gallery') }}">사진첩</a>에 따로 있습니다.</p>
+</section>
+<section class="sheet" aria-labelledby="arc-files">
+  <div class="section-head"><h2 id="arc-files">홈페이지에 있던 파일</h2><span class="muted">{{ groups.values()|map('length')|sum }}개</span></div>
+  {% for key, label in kinds.items() if groups[key] %}
+    <h3>{{ label }} <span class="muted">{{ groups[key]|length }}</span></h3>
+    <div class="table-wrap"><table class="listing">
+      <thead><tr><th>이름</th><th>구역</th><th class="num">크기</th><th class="num">캡처</th><th></th></tr></thead>
+      <tbody>{% for f in groups[key] %}
+        <tr><td class="name"><a href="{{ view_href(f.ts, f.canon) }}">{{ f.name }}</a><span class="sub url">{{ f.canon }}</span></td>
+          <td>{{ f.section }}</td><td class="num">{{ fmt_size(f.size) }}</td><td class="num ts">{{ f.ts[:4] }}</td>
+          <td><a href="{{ url_for('file', cap_id=f.id) }}">받기</a></td></tr>
+      {% endfor %}</tbody></table></div>
+  {% else %}
+    <p class="muted">보이는 파일이 없습니다. 압축 파일과 음악·영상 대부분은 인터넷 아카이브에 남지 않았거나 숨김 설정에 들어 있습니다.</p>
+  {% endfor %}
+</section>
+<section class="sheet" aria-labelledby="mem-files">
+  <div class="section-head"><h2 id="mem-files">회원이 올린 파일</h2>
+    <a href="{{ url_for('community.board', slug='files') }}">자료 나눔 게시판</a></div>
+  <div class="table-wrap"><table class="listing">
+    <thead><tr><th>파일</th><th>올린 글</th><th>올린 사람</th><th class="num">크기</th><th class="num">날짜</th></tr></thead>
+    <tbody>{% for a in member %}
+      <tr><td class="name"><a href="{{ url_for('community.attachment', att_id=a.id) }}">{{ a.name }}</a></td>
+        <td><a href="{{ url_for('community.post', post_id=a.post_id) }}">{{ a.title }}</a></td><td>{{ a.uname }}</td>
+        <td class="num">{{ fmt_size(a.size) }}</td><td class="num ts">{{ fmt_time(a.created)[2:10] }}</td></tr>
+    {% else %}<tr><td colspan="5" class="muted">아직 올라온 파일이 없습니다.</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+{% endblock %}

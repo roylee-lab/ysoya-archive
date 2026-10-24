@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ '글 고치기' if post else '글쓰기' }} — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <nav class="crumbs"><a href="{{ url_for('community.board_index') }}">게시판</a> / <a href="{{ url_for('community.board', slug=b.slug) }}">{{ b.name }}</a></nav>
+  <h1>{{ '글 고치기' if post else '글쓰기' }}</h1>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post" enctype="multipart/form-data" class="post-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="t">제목</label>
+    <input id="t" type="text" name="title" value="{{ title }}" maxlength="120" required>
+    <label for="body">내용</label>
+    <textarea id="body" name="body" rows="14" maxlength="20000" required>{{ body }}</textarea>
+    <p class="muted">글자 그대로 보입니다. 주소(http://…)는 자동으로 링크가 됩니다.</p>
+    {% if atts %}
+      <fieldset><legend>붙인 파일</legend>
+        {% for a in atts %}<label class="check"><input type="checkbox" name="remove_att" value="{{ a.id }}"> {{ a.name }} 빼기</label>{% endfor %}
+      </fieldset>
+    {% endif %}
+    <label for="files">파일 붙이기 (글 하나에 {{ c.max_files_per_post }}개, 파일 하나에 {{ c.max_upload_mb }}MB까지)</label>
+    <input id="files" type="file" name="files" multiple accept="{{ c.allowed_exts|join(',') }}">
+    <p class="muted">올릴 수 있는 형식: {{ c.allowed_exts|join(' ') }}. 다른 사람이 나온 사진이나 저작물은 허락을 받았을 때만 올려 주세요.</p>
+    <div class="post-actions"><button type="submit">{{ '고친 내용 저장' if post else '올리기' }}</button>
+      <a class="button" href="{{ url_for('community.post', post_id=post.id) if post else url_for('community.board', slug=b.slug) }}">취소</a></div>
+  </form>
+</section>
+{% endblock %}

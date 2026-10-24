@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ album.title }} — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <nav class="crumbs"><a href="{{ url_for('gallery') }}">사진첩</a> / {{ album.title }}</nav>
+  <div class="section-head"><h1>{{ album.title }}</h1><span class="muted">{{ photos|length }}장</span></div>
+  <p class="muted">폴더 <a class="url" href="{{ url_for('browse', p=album.dir) }}">{{ album.dir }}</a>. 사진을 누르면 캡처 시점과 함께 크게 볼 수 있습니다.</p>
+  <ul class="photo-grid">
+    {% for p in photos %}
+      <li><a href="{{ view_href(p.ts, p.canon) }}"><img src="{{ url_for('file', cap_id=p.id) }}" alt="{{ p.name }}" loading="lazy"></a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

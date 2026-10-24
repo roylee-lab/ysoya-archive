@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}연대기 — {{ cfg.site_title }}{% endblock %}
+{% block main %}
+<section class="sheet">
+  <h1>연대기</h1>
+  <p class="prose">홈페이지의 '갱신 소식' 페이지와 캡처 기록을 합쳐 만든 연표입니다.</p>
+  {% include "_chronicle.html" %}
+</section>
+<section class="sheet">
+  <h2>해마다 남은 캡처</h2>
+  <p class="muted">인터넷 아카이브가 이 주소들을 수집한 횟수입니다. 1996–2000년 페이지는 2001년 이후 캡처 안에 남아 있습니다.</p>
+  <ol class="year-bars">
+    {% for y, n in years %}
+      <li><a class="ts" href="{{ view_href(y ~ '0701', hero_canon) }}">{{ y }}</a>
+        <span class="bar" style="width: {{ (n / years_max * 100)|round(1) }}%"></span><span class="n">{{ "{:,}".format(n) }}</span></li>
+    {% endfor %}
+  </ol>
+</section>
+{% if diary_years %}
+<section class="sheet"><h2>일기장</h2>{% include "_diary.html" %}</section>
+{% endif %}
+{% endblock %}

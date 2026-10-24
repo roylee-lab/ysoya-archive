@@ -1,0 +1,8 @@
+<ul class="album-grid">
+  {% for a in albums %}
+    <li><a href="{{ url_for('album', album_id=a.id) }}"><figure>
+      <img src="{{ url_for('file', cap_id=a.cover) }}" alt="" loading="lazy">
+      <figcaption>{{ a.title }} <span class="count">{{ a.count }}장</span></figcaption>
+    </figure></a></li>
+  {% endfor %}
+</ul>

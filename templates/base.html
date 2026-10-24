@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if not cfg.allow_indexing %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <title>{% block title %}{{ cfg.site_title }}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Gothic+Coding&family=Nanum+Myeongjo:wght@700;800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='archive.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+{% block chrome %}
+  <header class="site-head">
+    <a class="wordmark" href="{{ url_for('home') }}">YSOYA<span>_</span>Archive</a>
+    <nav class="site-nav" aria-label="주 메뉴">
+      {% set nav = [('home','처음','home'),('browse','둘러보기','browse'),('gallery','사진첩','gallery'),('media','영상·음성','media'),
+                    ('community.files','자료','files'),('community.board_index','게시판','board'),('community.person','인물','person'),
+                    ('timeline','연대기','timeline'),('about','이 사이트는','about')] %}
+      {% for ep, label, key in nav %}
+        <a href="{{ url_for(ep) }}" {% if active == key %}aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+    <form class="head-search" action="{{ url_for('search') }}" role="search">
+      <label class="visually-hidden" for="q-top">보존된 페이지에서 찾기</label>
+      <input id="q-top" type="search" name="q" placeholder="보존된 페이지에서 찾기" value="{{ request.args.get('q','') if active == 'search' else '' }}">
+      <button type="submit">찾기</button>
+    </form>
+    <div class="user-area">
+      {% if me %}
+        <a href="{{ url_for('community.account') }}">{{ me.name }}</a>
+        {% if is_admin %}<a href="{{ url_for('community.admin') }}">관리</a>{% endif %}
+        <form method="post" action="{{ url_for('community.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="linklike">로그아웃</button></form>
+      {% else %}
+        <a href="{{ url_for('community.login', next=request.full_path) }}">로그인</a>
+        {% if cfg.community and cfg.community.signup != 'closed' %}<a href="{{ url_for('community.join') }}">가입</a>{% endif %}
+      {% endif %}
+    </div>
+  </header>
+  {% with msgs = get_flashed_messages() %}{% if msgs %}
+    <div class="flash" role="status">{% for m in msgs %}<p>{{ m }}</p>{% endfor %}</div>
+  {% endif %}{% endwith %}
+  <main>{% block main %}{% endblock %}</main>
+  <footer class="site-foot">
+    <p>{{ cfg.site_title }}은 인터넷 아카이브(web.archive.org)에 남은 캡처를 내려받아 다시 엮은 보존판입니다.
+       원래 글과 사진의 권리는 각 작성자에게 있습니다.{% if cfg.contact %} 삭제 요청: <a href="mailto:{{ cfg.contact }}">{{ cfg.contact }}</a>{% endif %}</p>
+    {% if meta.built %}<p>색인 {{ meta.built }}</p>{% endif %}
+  </footer>
+{% endblock %}
+</body>
+</html>

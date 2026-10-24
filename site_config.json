@@ -1,0 +1,312 @@
+{
+  "site_title": "YSOYA_Archive",
+  "site_subtitle": "YSOYA's Happy Home, 1996–2005 보존판",
+  "intro": "1996년 포항공대 계정에서 시작해 판타그램 서버를 거쳐 ysoya.net으로 옮겨 다닌 개인 홈페이지를, 인터넷 아카이브에 남은 캡처로 다시 엮었습니다. 페이지는 캡처 당시 모습 그대로 열리고, 같은 주소의 다른 시점으로 오갈 수 있습니다.",
+  "contact": "",
+  "hero": {
+    "url": "www.ysoya.net/",
+    "ts": "20030329181549"
+  },
+  "allow_indexing": false,
+  "allow_scripts": false,
+  "junk_after": "2017",
+  "junk_cluster_min": 8,
+  "hidden_prefixes": [
+    "ysoya.net/puryekaki",
+    "ysoya.net/~ysoya/puryekaki",
+    "ysoya.net/~heavyarms",
+    "ysoya.net/~istoriae",
+    "haru.ysoya.net",
+    "ysoya.net/wedding",
+    "ysoya.net/garage/movie",
+    "ysoya.net/garage/sounds",
+    "ysoya.net/garage/temporary",
+    "ysoya.net/temp/",
+    "ysoya.net/tmp/",
+    "ysoya.net/irisc"
+  ],
+  "hidden_exts": [
+    ".exe",
+    ".dll",
+    ".com",
+    ".scr",
+    ".msi",
+    ".pif"
+  ],
+  "sections": {
+    "ysoya.net/garage": "자료실",
+    "ysoya.net/stuff": "작업실 자료",
+    "ysoya.net/~ysoya/stuff": "작업실 자료",
+    "ysoya.net/diary": "일기장",
+    "ysoya.net/~ysoya/diary": "일기장",
+    "ysoya.net/img": "이미지",
+    "ysoya.net/~ysoya/img": "이미지",
+    "ysoya.net/~ysoya": "옛 경로 (~ysoya)",
+    "ysoya.net/tiki": "위키 개편판 (2003)",
+    "ysoya.net/tikitest": "위키 시험판 (2004–2005)",
+    "ysoya.net/puryekaki": "그림 방명록",
+    "postech.ac.kr/~ysoya": "포스텍 시절 (~2000.07)",
+    "cyan.phantagram.com/~ysoya": "판타그램 서버 시절 (2000.07~2001)"
+  },
+  "mirrors": [
+    [
+      "ysoya.net/",
+      "ysoya.net/~ysoya/",
+      "cyan.phantagram.com/~ysoya/",
+      "postech.ac.kr/~ysoya/"
+    ]
+  ],
+  "diary_pattern": "(?:^|/)diary/diary(\\d{2})(\\d{2})\\.(?:php|shtml|html?)$",
+  "featured": [
+    {
+      "title": "대문",
+      "desc": "2003년 3월의 첫 화면. 새소식, 일기장, 작업실, 자료실로 이어지는 입구",
+      "url": "www.ysoya.net/",
+      "ts": "20030329181549"
+    },
+    {
+      "title": "갱신 소식",
+      "desc": "1996년 첫 페이지부터 2001년 도메인 취득까지의 업데이트 기록",
+      "url": "www.ysoya.net/news.shtml",
+      "ts": "2003"
+    },
+    {
+      "title": "작업실",
+      "desc": "직접 만든 프로그램, 게임 잡지 원고, 트래커 음악, 사진 작업 목록",
+      "url": "www.ysoya.net/works.shtml",
+      "ts": "2001"
+    },
+    {
+      "title": "작업실 (영문판)",
+      "desc": "프로그램과 음악에 대한 설명이 더 자세한 영어 페이지",
+      "url": "www.ysoya.net/works_e.shtml",
+      "ts": "2003"
+    },
+    {
+      "title": "자료실",
+      "desc": "직접 고친 사진 갤러리 스크립트 blorpscript+로 돌아가던 사진·프로그램 창고",
+      "url": "ysoya.net/garage/",
+      "ts": "2003"
+    },
+    {
+      "title": "게임에서의 인공지능 알고리듬 구현",
+      "desc": "게임 AI 구현 방법을 정리한 글",
+      "url": "ysoya.net/stuff/gameAI/gameAI.php",
+      "ts": "2002"
+    },
+    {
+      "title": "PS2 컬럼",
+      "desc": "1999년 말 PS2 하드웨어를 다룬 연재",
+      "url": "ysoya.net/stuff/game/ps991201.shtml",
+      "ts": "2002"
+    },
+    {
+      "title": "오디오 인코더 청음 테스트",
+      "desc": "MP3, WMA, VQF 등을 같은 곡으로 비교한 1999년 실험",
+      "url": "ysoya.net/stuff/encoder.shtml",
+      "ts": "2002"
+    },
+    {
+      "title": "루즈삭스 페이지",
+      "desc": "1997년에 만든 가장 오래된 하위 페이지 중 하나",
+      "url": "ysoya.net/stuff/LooseSox/index.shtml",
+      "ts": "2002"
+    },
+    {
+      "title": "공간이동",
+      "desc": "당시 즐겨 찾던 사이트 모음",
+      "url": "www.ysoya.net/linx.shtml",
+      "ts": "2003"
+    },
+    {
+      "title": "위키 개편판",
+      "desc": "2003년에 TikiWiki로 옮기려던 시도",
+      "url": "ysoya.net/tiki/tiki-index.php",
+      "ts": "2003"
+    },
+    {
+      "title": "A Random Dungeon",
+      "desc": "2011년 같은 주소에서 운영된 Tumblr 블로그",
+      "url": "ysoya.net/",
+      "ts": "20110107103344"
+    }
+  ],
+  "timeline": [
+    {
+      "date": "1996-11-17",
+      "text": "포항공대 계정에서 홈페이지 시작"
+    },
+    {
+      "date": "1997-04-08",
+      "text": "작업실 개장"
+    },
+    {
+      "date": "1998-02-19",
+      "text": "사이트 재구축, 방명록 설치"
+    },
+    {
+      "date": "1999-01-23",
+      "text": "디지털 캠코더 구입, 일기에 사진 싣기 시작"
+    },
+    {
+      "date": "1999-08-17",
+      "text": "17회 ACA를 시작으로 행사 사진 연재"
+    },
+    {
+      "date": "1999-10-13",
+      "text": "투하트 교복 DDR 영상 공개"
+    },
+    {
+      "date": "1999-12-04",
+      "text": "PS2 컬럼 연재 시작"
+    },
+    {
+      "date": "2000-05-12",
+      "text": "페이지 한글화"
+    },
+    {
+      "date": "2000-07-17",
+      "text": "학교 서버에서 판타그램 서버(cyan.phantagram.com)로 이전"
+    },
+    {
+      "date": "2000-07-20",
+      "text": "그림을 그릴 수 있는 방명록 설치"
+    },
+    {
+      "date": "2001-05-09",
+      "text": "ysoya.net 도메인 취득"
+    },
+    {
+      "date": "2003-06-07",
+      "text": "TikiWiki 개편 시도"
+    },
+    {
+      "date": "2011-01-07",
+      "text": "같은 주소에서 Tumblr 블로그 운영"
+    },
+    {
+      "date": "2015-11-22",
+      "text": "빈 호스팅 상태"
+    }
+  ],
+  "album_titles": {
+    "ysoya.net/img/aca17": [
+      "17회 ACA (1999.08)",
+      "1999-08-17"
+    ],
+    "ysoya.net/img/comicworld3": [
+      "코믹월드 3 (1999.09)",
+      "1999-09-22"
+    ],
+    "ysoya.net/img/comicworld4": [
+      "코믹월드 4 (1999.11)",
+      "1999-11-19"
+    ],
+    "ysoya.net/img/aca18": [
+      "18회 ACA (2000.02)",
+      "2000-02-09"
+    ],
+    "ysoya.net/img/hcp2000": [
+      "하이텔 코스튬파티 2000 (2000.04)",
+      "2000-04-16"
+    ],
+    "ysoya.net/img/mpolice": [
+      "M-Police 코스프레 (2000.05)",
+      "2000-05-10"
+    ],
+    "ysoya.net/img/lotte": [
+      "롯데월드 코스프레 (2000.07)",
+      "2000-07-02"
+    ],
+    "ysoya.net/img/g-expo": [
+      "게임엑스포 코스프레 (2000.07)",
+      "2000-07-18"
+    ],
+    "ysoya.net/img/comicworld8": [
+      "코믹월드 8 (2000.08)",
+      "2000-08-20"
+    ],
+    "ysoya.net/img/photo": [
+      "대문 사진",
+      ""
+    ],
+    "ysoya.net/garage/pic/GatePictures": [
+      "대문 사진 모음",
+      ""
+    ],
+    "ysoya.net/img/k-vid": [
+      "K군 비디오 장면",
+      "1999-07-07"
+    ],
+    "ysoya.net/stuff/game/e2d": [
+      "게임 화면 (1999.12)",
+      "1999-12-07"
+    ],
+    "ysoya.net/stuff/LooseSox": [
+      "루즈삭스 페이지 그림",
+      "1997-04-06"
+    ],
+    "ysoya.net/stuff/event": [
+      "배너 모집 이벤트",
+      "1999-11-19"
+    ]
+  },
+  "community": {
+    "signup": "invite",
+    "members_only": false,
+    "max_upload_mb": 20,
+    "max_files_per_post": 5,
+    "allowed_exts": [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".webp",
+      ".pdf",
+      ".txt",
+      ".zip",
+      ".7z",
+      ".mp3",
+      ".ogg",
+      ".mp4",
+      ".webm",
+      ".mid",
+      ".lzh",
+      ".hwp",
+      ".docx",
+      ".xlsx",
+      ".pptx",
+      ".csv",
+      ".srt",
+      ".smi"
+    ],
+    "boards": [
+      {
+        "slug": "notice",
+        "name": "공지",
+        "desc": "운영 소식",
+        "admin_only": true
+      },
+      {
+        "slug": "free",
+        "name": "자유게시판",
+        "desc": "YSOYA의 옛 홈페이지와 그 시절 이야기"
+      },
+      {
+        "slug": "finds",
+        "name": "발굴·제보",
+        "desc": "새로 찾은 옛 자료, 깨진 링크의 행방, 연표·경력 정정 제보"
+      },
+      {
+        "slug": "files",
+        "name": "자료 나눔",
+        "desc": "직접 가진 옛 파일(사진, 스캔, 녹화본 등)을 올리는 곳. 저작권을 확인하고 올려 주세요"
+      },
+      {
+        "slug": "qna",
+        "name": "질문",
+        "desc": "사이트 이용과 복구 방법에 대한 질문"
+      }
+    ]
+  }
+}

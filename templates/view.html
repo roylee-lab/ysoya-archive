@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if not cfg.allow_indexing %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <title>{% if cap %}{{ cap.title }} ({{ cap.ts[:4] }}){% else %}보존된 자료에 없음{% endif %} — {{ cfg.site_title }}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Gothic+Coding&family=Nanum+Myeongjo:wght@800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='archive.css') }}">
+</head>
+<body class="viewer">
+  <div class="viewer-bar">
+    <div class="viewer-row">
+      <a class="wordmark" href="{{ url_for('home') }}">YSOYA<span>_</span>Archive</a>
+      {% if cap %}
+        <a class="button" id="prev" href="{{ prev_href or '#' }}" {% if not prev_href %}aria-disabled="true"{% endif %} title="이전 캡처 (←)">이전 캡처</a>
+        <span class="viewer-url" title="{{ cap.url }}">{{ cap.url }}</span>
+        <a class="button" id="next" href="{{ next_href or '#' }}" {% if not next_href %}aria-disabled="true"{% endif %} title="다음 캡처 (→)">다음 캡처</a>
+        <label class="visually-hidden" for="ver">캡처 시점 고르기</label>
+        <select id="ver" data-nav>
+          {% for v in versions %}<option value="{{ v.href }}" {% if v.ts == cap.ts %}selected{% endif %}>{{ ts_label(v.ts) }}</option>{% endfor %}
+        </select>
+        <a class="button" href="{{ url_for('file', cap_id=cap.id) }}">원본 파일 받기</a>
+        <a class="button" href="https://web.archive.org/web/{{ cap.ts }}/{{ cap.url }}" target="_blank" rel="noopener noreferrer">웨이백에서 보기</a>
+      {% else %}
+        <span class="viewer-url">{{ want }}</span>
+      {% endif %}
+    </div>
+    {% if cap %}
+    <div class="viewer-info">
+      <span>캡처 시점 <strong class="ts">{{ ts_label(cap.ts) }}</strong></span>
+      <span>이 주소의 캡처 <strong>{{ versions|length }}개</strong></span>
+      <span>구역 <strong>{{ cap.section }}</strong></span>
+      {% if tier == 2 %}<span><strong>요청한 주소에는 없어, 같은 홈페이지의 다른 위치에 남은 사본을 보여줍니다.</strong></span>{% endif %}
+      {% if not cap.verified %}<span>가까운 다른 시점의 내용일 수 있습니다</span>{% endif %}
+    </div>
+    {% if versions|length > 1 %}
+    <div class="ver-dots" aria-hidden="true">
+      {% for v in versions %}<a href="{{ v.href }}" style="left: {{ v.pos }}%" {% if v.ts == cap.ts %}aria-current="true"{% endif %} title="{{ ts_label(v.ts) }}" tabindex="-1"></a>{% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+  </div>
+  {% if cap %}
+    <iframe class="viewer-frame" src="{{ raw }}" title="보존된 페이지: {{ cap.title }}"
+            sandbox="allow-same-origin allow-top-navigation-by-user-activation allow-popups allow-popups-to-escape-sandbox"></iframe>
+  {% else %}
+    <div class="viewer-missing"><main><div class="sheet prose">
+      <h1>받은 자료에 없는 주소입니다</h1>
+      {% if hidden_hit %}
+        <p>이 주소는 다른 사람의 글이나 저작물이 섞여 있어 이 사이트에서 보이지 않게 설정돼 있습니다.</p>
+      {% else %}
+        <p><span class="url">{{ want }}</span> 의 캡처는 내려받은 자료에 없습니다. 인터넷 아카이브에는 남아 있을 수 있습니다.</p>
+      {% endif %}
+      <p><a class="button" href="https://web.archive.org/web/{{ ts }}/{{ want }}" target="_blank" rel="noopener noreferrer">웨이백에서 찾아보기</a>
+         <a class="button" href="{{ url_for('home') }}">처음으로</a></p>
+    </div></main></div>
+  {% endif %}
+  <script src="{{ url_for('static', filename='viewer.js') }}"></script>
+</body>
+</html>

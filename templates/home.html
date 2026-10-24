@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="sheet hero" aria-labelledby="hero-title">
+  <div>
+    {% if title_img %}<img class="hero-title-img" src="{{ title_img }}" alt="YSOYA's Happy Home" width="356" height="67">{% endif %}
+    <h1 id="hero-title" class="{% if title_img %}visually-hidden{% endif %}">YSOYA's Happy Home</h1>
+    <p class="lede">{{ cfg.intro }}</p>
+    <p class="muted">보존된 페이지 {{ "{:,}".format(stats.pages) }}개, 사진 {{ "{:,}".format(stats.images) }}장, 사진첩 {{ stats.albums }}개를
+       {{ stats.first[:4] }}년부터 {{ stats.last[:4] }}년까지의 캡처 {{ "{:,}".format(stats.captures) }}개에서 모았습니다.</p>
+    <div class="year-strip" role="list" aria-label="해마다 남은 캡처 수">
+      {% for y, n in years %}
+        <a role="listitem" href="{{ view_href(y ~ '0701', hero_canon) }}" title="{{ y }}년 캡처 {{ n }}개 — 그해의 첫 화면 열기">
+          <span class="bar" style="height: {{ (n / years_max * 100)|round(1) }}%"></span><span class="yr">{{ y[2:] }}</span>
+        </a>
+      {% endfor %}
+    </div>
+    <p class="year-caption">막대는 해마다 남은 캡처 수입니다. 누르면 그해의 첫 화면이 열립니다.</p>
+  </div>
+  <figure class="window" style="margin:0">
+    <div class="window-bar"><span class="title">YSOYA's Happy Home — {{ hero_label }}</span><span class="controls" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="window-body">
+      <iframe src="{{ hero_raw }}" title="2003년 3월의 YSOYA's Happy Home 첫 화면" loading="lazy"
+              sandbox="allow-same-origin allow-top-navigation-by-user-activation allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+    <figcaption class="window-foot"><span>캡처 그대로의 화면입니다. 안의 링크를 누르면 보존된 페이지로 이동합니다.</span>
+      <a href="{{ hero_view }}">크게 보기</a></figcaption>
+  </figure>
+</section>
+
+<section class="sheet" aria-labelledby="featured-title">
+  <div class="section-head"><h2 id="featured-title">다시 열어볼 곳</h2><a href="{{ url_for('browse') }}">모든 주소 둘러보기</a></div>
+  <dl class="featured">
+    {% for f in featured %}
+      <div><dt><a href="{{ f.href }}">{{ f.title }}</a></dt><dd>{{ f.desc }}</dd></div>
+    {% endfor %}
+  </dl>
+</section>
+
+{% if diary_years %}
+<section class="sheet" aria-labelledby="diary-title">
+  <div class="section-head"><h2 id="diary-title">일기장</h2><span class="muted">채워진 칸이 남아 있는 달입니다</span></div>
+  {% include "_diary.html" %}
+</section>
+{% endif %}
+
+<section class="sheet" aria-labelledby="album-title">
+  <div class="section-head"><h2 id="album-title">사진첩</h2><a href="{{ url_for('gallery') }}">사진첩 {{ stats.albums }}개 모두 보기</a></div>
+  {% with albums = albums %}{% include "_albums.html" %}{% endwith %}
+</section>
+
+<section class="sheet" aria-labelledby="chron-title">
+  <div class="section-head"><h2 id="chron-title">연대기</h2><a href="{{ url_for('timeline') }}">해마다 남은 캡처 보기</a></div>
+  {% include "_chronicle.html" %}
+</section>
+{% endblock %}
